@@ -21,4 +21,5 @@ from portal_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index, name="index"),
+    path("intersections/<int:intersection_id>/", views.intersection_details, name="intersections"),
 ]
