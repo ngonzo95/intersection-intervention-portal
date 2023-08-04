@@ -1,0 +1,31 @@
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+{% extends 'base.html' %}
+
+{% block content %} 
+    <table  class="table table-hover">
+        <tbody>
+            <thead>
+                <tr>
+                    <th> Id </th>
+                    <td>Yearly Cost to Insurers</td>
+                    <td>Number of accidents</td>
+                    <td>Latitude</td>
+                    <td>Longitude</td>
+                </tr>
+            </thead>
+            {% if intersection_list %}
+                {% for intersection in intersection_list %}
+                    <tr style="transform: rotate(0);">
+                        <th scope="row"><a href="#" class="stretched-link">{{intersection.id}}</a></th>
+                        <td>{{ intersection.average_cost_to_insurers }}</td>
+                        <td>{{ intersection.number_of_accidents }}</td>
+                        <td>{{ intersection.lon }}</td>
+                        <td>{{ intersection.lat }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <p>No intersection found.</p>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock content %}
