@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
+from django.http import Http404
 from .models import Intersection
 
 # Create your views here.
@@ -8,5 +9,10 @@ def index(request):
     return render(request, "portal_app/index.html", context)
 
 def intersection_details(request, intersection_id):
-    return HttpResponse("You're looking at question %s." % intersection_id)
+    try:
+        intersection = Intersection.objects.get(pk=intersection_id)
+        print(intersection)
+    except Intersection.DoesNotExist:
+        raise Http404("Intersection does not exist")
+    return render(request, "portal_app/intersection.html", {"intersection": intersection})
 
