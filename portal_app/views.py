@@ -1,17 +1,52 @@
 from django.shortcuts import render, HttpResponse
 from django.http import Http404
 from .models import Intersection
-from bokeh.plotting import figure
+from bokeh.plotting import figure, gmap
 from bokeh.embed import components
-from bokeh.models import ColumnDataSource, ranges, LabelSet
+from bokeh.models import ColumnDataSource, ranges, LabelSet, GMapOptions, LinearColorMapper, HoverTool, TapTool, OpenURL
 
 
-# Create your views here.
+
+"""
+This route handles the index page which shows a list of all intersections 
+"""
 def index(request):
     intersection_list = Intersection.objects.order_by("-number_of_accidents")[:20]
-    context = {"intersection_list": intersection_list}
-    return render(request, "portal_app/index.html", context)
+    
+    map_options = GMapOptions(lat=42.511975, lng=-94.167375, map_type="roadmap", zoom=7)
+    p = gmap("AIzaSyBrYytD5OWJtME3ydbBiFfJ8pSnhdQNa3Q", map_options, title="Iowa Collisions", tools=["pan","wheel_zoom"], frame_width = 800)
 
+    source = ColumnDataSource(
+        data={
+            "number_of_accidents": [x.number_of_accidents for x in intersection_list],
+            "cost_to_insures": [x.average_cost_to_insurers for x in intersection_list],
+            "lats": [float(x.lat) for x in intersection_list],
+            "lons": [float(x.lon) for x in intersection_list]
+
+        }
+    )
+
+    p.circle(x="lons", y="lats", size=12,  source=source)
+
+    TOOLTIPS = [
+        ("Total # of Accidents", "@number_of_accidents{0,0}"),
+        ("Average Yearly cost to Insurers","$@cost_to_insures{0,0}")
+    ]
+    p.add_tools( HoverTool(tooltips=TOOLTIPS))
+    map_script, map_div = components(p)
+
+    # url = "https://www.google.com/maps/search/?api=1&query=@lats,@lons"
+
+    # p.add_tools(TapTool(callback = OpenURL(url=url)))
+
+    return render(request, "portal_app/index.html", {"intersection_list": intersection_list, "map_script": map_script, "map_div": map_div})
+
+
+
+
+"""
+This route handles the page for a particular intersection.
+"""
 def intersection_details(request, intersection_id):
     try:
         intersection = Intersection.objects.get(pk=intersection_id)
