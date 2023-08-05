@@ -1,0 +1,35 @@
+<div d-flex>
+    <h2>Interventions</h2>
+    <!-- Show the existing movies, from the component's "movies" property -->
+    <table  class="table table-hover">
+        <tbody>
+		     <tr>
+		        <th> Id </th>
+		        <td>Conversion Cost</td>
+		        <td>New Intersection Type</td>
+		        <td>Accident Reduction Rate</td>
+		        <td>Accident Severity Reduction Rate</td>
+		        <td>Action</td>
+		    </tr>
+		    <tr>
+		    	<th>New</th>
+    			<td> <input type="number" unicorn:model="conversion_cost" /> </td>
+    			<td><input type="text" unicorn:model="new_intersection_type" /></td>
+    			<td><input type="number" unicorn:model="accident_reduction_rate" /></td>
+    			<td><input type="number" unicorn:model="acccident_severity_reduction_rate" /></td>
+    			<td><button unicorn:click="add_intervention">Save </button></td>
+			</tr>
+
+		    {% for intervention in interventions %}
+		    	<tr>
+		            <th>{{ intervention.id }}</th>
+		            <td>{{ intervention.conversion_cost }}</td>
+		            <td>{{ intervention.new_intersection_type }}</td>
+		            <td>{{ intervention.accident_reduction_rate }}</td>
+		            <td>{{ intervention.accident_severity_reduction_rate }}</td>
+		            <td><button unicorn:click="delete_intervention({{intervention.id}})">Delete</button></td>
+		        </tr>
+		    {% endfor %}
+	    </tbody>
+    </table>
+</div>

@@ -1,3 +1,4 @@
+{% load unicorn %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +10,12 @@
     {% bootstrap_css %}
 
     {% bootstrap_javascript %}
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-3.1.1.min.css" rel="stylesheet" type="text/css">
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-3.1.1.min.css"rel"”stylesheet" type="text/css">
 
     {% bootstrap_messages %}
     <title>Intersection Portal</title>
+    {% unicorn_scripts %}
 
 </head>
 <body>
@@ -20,4 +24,9 @@
     {% endblock content %}
     
 </body>
+
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.1.1.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.1.1.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-3.1.1.min.js"></script>
 </html>

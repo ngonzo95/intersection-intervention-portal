@@ -1,0 +1,46 @@
+
+<div class="col">
+    <h3>Intersection Details</h3>
+    <div class="d-flex">
+        <table class="table table-striped mt-5">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>{{"Id" | upper}}</td>
+                        <td>{{intersection.id}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>{{"Number of Accidents" | upper}}</td>
+                        <td>{{intersection.number_of_accidents}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>{{"Yearly Cost to Insurers" | upper}}</td>
+                        <td>{{intersection.average_cost_to_insurers}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>{{"Intersection Type" | upper}}</td>
+                        <td><input type="text" unicorn:model="intersection_type" /></td>
+                        <td><button unicorn:click="update_intersection_type">Save</button></td>
+                    </tr>
+                    
+            </tbody>
+        </table>
+    </div>
+
+	{{div | safe}}
+  	{{script | safe}}
+
+    <div class="d-flex">
+        <a href="/" class="d-block btn btn-primary btn-sm my-5">BACK</a>
+    </div>
+</div>
+
