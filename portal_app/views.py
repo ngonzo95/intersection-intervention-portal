@@ -65,7 +65,7 @@ def intersection_details(request, intersection_id):
     y_label = "Number of Accidents"
 
     p_bar = figure(x_range=bar_source.data["x"], aspect_ratio=4, title="Intersection Accident Severity",
-               toolbar_location=None, tools="", x_axis_label=x_label, y_axis_label=y_label, y_range= ranges.Range1d(start=0,end=1.1 * max(bar_source.data["y"])))
+               toolbar_location=None, tools="", x_axis_label=x_label, y_axis_label=y_label, y_range= ranges.Range1d(start=0,end=1.3 * max(bar_source.data["y"])), height_policy="max", width_policy="max")
 
     p_bar.vbar(x="x", top="y", width=0.9, source=bar_source)
 
