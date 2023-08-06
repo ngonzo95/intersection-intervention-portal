@@ -37,10 +37,9 @@ def index(request):
     p.add_tools( HoverTool(tooltips=TOOLTIPS))
     map_script, map_div = components(p)
 
-    url = request.get_host() + "/intersections/@ids"
-    print(url)
-
-    p.add_tools(TapTool(callback = OpenURL(url=url)))
+    # url = request.get_host() + "/intersections/@ids"
+    # print(url)
+    # p.add_tools(TapTool(callback = OpenURL(url=url)))
 
     return render(request, "portal_app/index.html", {"intersection_list": intersection_list, "map_script": map_script, "map_div": map_div})
 
