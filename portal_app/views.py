@@ -89,7 +89,7 @@ def _generate_intersection_plot(intersection_list, request):
     ]
     p.add_tools( HoverTool(tooltips=TOOLTIPS))
 
-    url = request.get_host() + "/intersections/@ids"
+    url = "/intersections/@ids"
     p.add_tools(TapTool(callback = OpenURL(url=url)))
     return components(p)
 
