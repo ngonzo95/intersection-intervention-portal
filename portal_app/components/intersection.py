@@ -8,6 +8,7 @@ class IntersectionView(UnicornView):
     intersection_type = ""
     next_path = ""
     prev_path= ""
+    intersection = None
 
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)  # calling super is required
