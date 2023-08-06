@@ -22,6 +22,6 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index, name="index"),
-    path("intersections/<int:intersection_id>/", views.intersection_details, name="intersections"),
+    path("intersections/<int:intersection_id>", views.intersection_details, name="intersections"),
     path("unicorn/", include("django_unicorn.urls")),
 ]

@@ -35,11 +35,11 @@ def index(request):
         ("Average Yearly cost to Insurers","$@cost_to_insures{0,0}")
     ]
     p.add_tools( HoverTool(tooltips=TOOLTIPS))
-    map_script, map_div = components(p)
 
-    # url = request.get_host() + "/intersections/@ids"
-    # print(url)
-    # p.add_tools(TapTool(callback = OpenURL(url=url)))
+    url = request.get_host() + "/intersections/@ids"
+    # url = "https://www.google.com/maps/search/?api=1&query=@lats,@lons"
+    p.add_tools(TapTool(callback = OpenURL(url=url)))
+    map_script, map_div = components(p)
 
     return render(request, "portal_app/index.html", {"intersection_list": intersection_list, "map_script": map_script, "map_div": map_div})
 

@@ -23,7 +23,7 @@
 		    {% for intervention in interventions %}
 		    	<tr>
 		            <th>{{ intervention.id }}</th>
-		            <td>{{ intervention.conversion_cost }}</td>
+		            <td>{{ intervention.formatted_conversion_cost}}</td>
 		            <td>{{ intervention.new_intersection_type }}</td>
 		            <td>{{ intervention.accident_reduction_rate }}</td>
 		            <td>{{ intervention.accident_severity_reduction_rate }}</td>

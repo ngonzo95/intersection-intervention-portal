@@ -39,8 +39,8 @@
                     {% if intersection_list %}
                         {% for intersection in intersection_list %}
                             <tr style="transform: rotate(0);">
-                                <th scope="row"><a href="/intersections/{{ intersection.id }}/" class="stretched-link">{{intersection.id}}</a></th>
-                                <td>{{ intersection.average_cost_to_insurers }}</td>
+                                <th scope="row"><a href="/intersections/{{ intersection.id }}" class="stretched-link">{{intersection.id}}</a></th>
+                                <td>{{ intersection.formatted_cost_to_insurers }}</td>
                                 <td>{{ intersection.number_of_accidents }}</td>
                                 <td>{{ intersection.lon }}</td>
                                 <td>{{ intersection.lat }}</td>

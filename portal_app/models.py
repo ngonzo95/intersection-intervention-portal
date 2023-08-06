@@ -17,6 +17,10 @@ class Intersection(models.Model):
     def intervention_count(self):
         return self.intervention_set.all().count()
 
+    @property
+    def formatted_cost_to_insurers(self):
+        return  '${:0,.2f}'.format(self.average_cost_to_insurers)
+
 class Intervention(models.Model):
     new_intersection_type = models.CharField(db_index=True, max_length=80)
     conversion_cost = models.DecimalField(db_index=True, max_digits=20, decimal_places=2) 
@@ -26,3 +30,7 @@ class Intervention(models.Model):
         "Intersection",
         on_delete=models.CASCADE,
     )
+
+    @property
+    def formatted_conversion_cost(self):
+        return  '${:0,.2f}'.format(self.conversion_cost)
