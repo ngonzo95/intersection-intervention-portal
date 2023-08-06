@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn intersectionInterventionPortal.wsgi
+web: gunicorn intersectionIntervalPortal.wsgi
