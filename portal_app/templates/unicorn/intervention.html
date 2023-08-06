@@ -13,10 +13,10 @@
 		    </tr>
 		    <tr>
 		    	<th>New</th>
-    			<td> <input type="number" unicorn:model="conversion_cost" /> </td>
-    			<td><input type="text" unicorn:model="new_intersection_type" /></td>
-    			<td><input type="number" unicorn:model="accident_reduction_rate" /></td>
-    			<td><input type="number" unicorn:model="acccident_severity_reduction_rate" /></td>
+    			<td> <input type="number" unicorn:model.lazy="conversion_cost" /> </td>
+    			<td><input type="text" unicorn:model.lazy="new_intersection_type" /></td>
+    			<td><input type="number" unicorn:model.lazy="accident_reduction_rate" /></td>
+    			<td><input type="number" unicorn:model.lazy="acccident_severity_reduction_rate" /></td>
     			<td><button unicorn:click="add_intervention">Save </button></td>
 			</tr>
 

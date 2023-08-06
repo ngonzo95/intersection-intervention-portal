@@ -19,7 +19,10 @@ class Intersection(models.Model):
 
     @property
     def formatted_cost_to_insurers(self):
-        return  '${:0,.2f}'.format(self.average_cost_to_insurers)
+        if type(self.average_cost_to_insurers) == str:
+            return self.average_cost_to_insurers
+        else:
+            return  '${:0,.2f}'.format(self.average_cost_to_insurers)
 
 class Intervention(models.Model):
     new_intersection_type = models.CharField(db_index=True, max_length=80)
@@ -33,4 +36,7 @@ class Intervention(models.Model):
 
     @property
     def formatted_conversion_cost(self):
-        return  '${:0,.2f}'.format(self.conversion_cost)
+        if type(self.conversion_cost) == str:
+            return self.conversion_cost
+        else:
+            return  '${:0,.2f}'.format(self.conversion_cost)
