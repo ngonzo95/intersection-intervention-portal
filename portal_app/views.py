@@ -5,6 +5,7 @@ from bokeh.plotting import figure, gmap
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource, ranges, LabelSet, GMapOptions, LinearColorMapper, HoverTool, TapTool, OpenURL
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
@@ -12,11 +13,22 @@ from django.urls import reverse
 This route handles the index page which shows a list of all intersections 
 """
 def index(request):
-    intersection_list = Intersection.objects.order_by("-number_of_accidents")[:20]
+    intersection_list = Intersection.objects.order_by("-number_of_accidents").all()
 
-    map_script, map_div = _generate_intersection_plot(intersection_list, request)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(intersection_list, 20)
+    
+    try:
+        intersections = paginator.page(page)
+    except PageNotAnInteger:
+        intersections = paginator.page(1)
+    except EmptyPage:
+        intersections = paginator.page(paginator.num_pages)
 
-    return render(request, "portal_app/index.html", {"intersection_list": intersection_list, "map_script": map_script, "map_div": map_div})
+    
+    map_script, map_div = _generate_intersection_plot(intersections, request)
+
+    return render(request, "portal_app/index.html", {"intersection_list": intersections, "map_script": map_script, "map_div": map_div})
 
 
 
@@ -52,7 +64,7 @@ def intersection_details(request, intersection_id):
  
     script, div = components(p_bar)
 
-    return render(request, "portal_app/intersection.html", {"intersection": intersection, "script": script, "div": div})
+    return render(request, "portal_app/intersection.html", {"intersection": intersection, "script": script, "div": div, "prev_intersection_path": _prev_intersection_path(intersection), "next_intersection_path": _next_intersection_path(intersection)})
 
 def _generate_intersection_plot(intersection_list, request):
     map_options = GMapOptions(lat=42.511975, lng=-94.167375, map_type="roadmap", zoom=7)
@@ -80,5 +92,14 @@ def _generate_intersection_plot(intersection_list, request):
     url = request.get_host() + "/intersections/@ids"
     p.add_tools(TapTool(callback = OpenURL(url=url)))
     return components(p)
+
+def _prev_intersection_path(intersection):
+    inter = Intersection.objects.raw("select pai.* from portal_app_intersection pai where pai.average_cost_to_insurers  > (select pai2.average_cost_to_insurers from portal_app_intersection pai2 where pai2.id = %s) order by pai.average_cost_to_insurers limit 1", [intersection.id])[0]
+    return reverse("intersections", args=[inter.id])
+
+def _next_intersection_path(intersection):
+    inter = Intersection.objects.raw("select pai.* from portal_app_intersection pai where pai.average_cost_to_insurers  < (select pai2.average_cost_to_insurers from portal_app_intersection pai2 where pai2.id = %s) order by  pai.average_cost_to_insurers  desc limit 1", [intersection.id])[0]
+    return reverse("intersections", args=[inter.id])
+
 
 
