@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-)ty!)esw=vjm-!=8&koh-49n55q@)j(*##0x#0%yt71b_%uw-%
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://intersection-intervention-port-d9a076383e84.herokuapp.com/']
 
 
 # Application definition
