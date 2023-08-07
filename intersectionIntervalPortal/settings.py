@@ -165,31 +165,56 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 def get_cache():
-  import os
-  try:
-    servers = os.environ['MEMCACHIER_SERVERS']
-    username = os.environ['MEMCACHIER_USERNAME']
-    password = os.environ['MEMCACHIER_PASSWORD']
-    return {
-      'default': {
-        'BACKEND': 'django_bmemcached.memcached.BMemcached',
-        # TIMEOUT is not the connection timeout! It's the default expiration
-        # timeout that should be applied to keys! Setting it to `None`
-        # disables expiration.
-        'TIMEOUT': None,
-        'LOCATION': servers,
-        'OPTIONS': {
-          'username': username,
-          'password': password,
+    try:
+        location = os.environ['REDIS_ENDPOINT_URI']
+        password = os.environ['REDIS_PASSWORD']
+        return {
+            "default": {
+                "BACKEND": "django_redis.cache.RedisCache",
+                "LOCATION": location,
+                "OPTIONS": {
+                    "PASSWORD": password
+                    "CLIENT_CLASS": "django_redis.client.DefaultClient"
+                },
+                "KEY_PREFIX": "example"
+            }
         }
-      }
-    }
-  except:
-    return {
-      'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
-      }
-    }
+    except:
+        {
+            "default": {
+                "BACKEND": "django_redis.cache.RedisCache",
+                "LOCATION": "redis://127.0.0.1:6379/1",
+                "OPTIONS": {
+                    "CLIENT_CLASS": "django_redis.client.DefaultClient"
+                },
+                "KEY_PREFIX": "example"
+            }
+        }
+  # import os
+  # try:
+  #   servers = os.environ['MEMCACHIER_SERVERS']
+  #   username = os.environ['MEMCACHIER_USERNAME']
+  #   password = os.environ['MEMCACHIER_PASSWORD']
+  #   return {
+  #     'default': {
+  #       'BACKEND': 'django_bmemcached.memcached.BMemcached',
+  #       # TIMEOUT is not the connection timeout! It's the default expiration
+  #       # timeout that should be applied to keys! Setting it to `None`
+  #       # disables expiration.
+  #       'TIMEOUT': None,
+  #       'LOCATION': servers,
+  #       'OPTIONS': {
+  #         'username': username,
+  #         'password': password,
+  #       }
+  #     }
+  #   }
+  # except:
+  #   return {
+  #     'default': {
+  #       'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+  #     }
+  #   }
 
 
 CACHES = get_cache()
