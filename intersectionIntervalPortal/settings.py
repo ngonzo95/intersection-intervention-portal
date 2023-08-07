@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)ty!)esw=vjm-!=8&koh-49n55q@)j(*##0x#0%yt71b_%uw-%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com', '.ngrok-free.app']
 CSRF_TRUSTED_ORIGINS = ['https://intersection-intervention-port-d9a076383e84.herokuapp.com/']
 
 
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
