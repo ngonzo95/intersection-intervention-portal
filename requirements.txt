@@ -6,6 +6,7 @@ contourpy==1.1.0
 decorator==4.4.2
 dj-database-url==2.0.0
 Django==4.2.4
+django-bmemcached==0.3.0
 django-bootstrap5==23.3
 django-environ==0.10.0
 django-heroku==0.3.1
@@ -20,9 +21,11 @@ pandas==2.0.3
 Pillow==10.0.0
 psycopg2==2.9.6
 psycopg2-binary==2.9.7
+python-binary-memcached==0.31.2
 python-dateutil==2.8.2
 pytz==2023.3
 PyYAML==6.0.1
+redis==4.6.0
 shortuuid==1.0.11
 six==1.16.0
 soupsieve==2.4.1
@@ -30,6 +33,7 @@ sqlparse==0.4.4
 tornado==6.3.2
 typing_extensions==4.7.1
 tzdata==2023.3
+uhashring==2.3
 unicorn==2.0.1.post1
 utm==0.7.0
 whitenoise==6.5.0
