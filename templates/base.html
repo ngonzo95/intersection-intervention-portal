@@ -10,16 +10,17 @@
     {% bootstrap_css %}
 
     {% bootstrap_javascript %}
-    <link href="http://cdn.pydata.org/bokeh/release/bokeh-3.1.1.min.css" rel="stylesheet" type="text/css">
-    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-3.1.1.min.css"rel"”stylesheet" type="text/css">
+    <link href="https://cdn.pydata.org/bokeh/release/bokeh-3.1.1.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.pydata.org/bokeh/release/bokeh-widgets-3.1.1.min.css"rel"”stylesheet" type="text/css">
 
     {% bootstrap_messages %}
     <title>Intersection Portal</title>
     {% unicorn_scripts %}
-    {% csrf_token %}
+    
 
 </head>
 <body>
+    {% csrf_token %}
     {% block content %}
 
     {% endblock content %}
