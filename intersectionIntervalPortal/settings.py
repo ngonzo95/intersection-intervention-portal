@@ -58,6 +58,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'intersectionIntervalPortal.urls'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
