@@ -166,14 +166,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 def get_cache():
     try:
-        location = os.environ['REDIS_ENDPOINT_URI']
-        password = os.environ['REDIS_PASSWORD']
+        location = os.environ['REDIS_URL']
         return {
             "default": {
                 "BACKEND": "django_redis.cache.RedisCache",
                 "LOCATION": location,
                 "OPTIONS": {
-                    "PASSWORD": password,
                     "CLIENT_CLASS": "django_redis.client.DefaultClient"
                 },
                 "KEY_PREFIX": "example"
