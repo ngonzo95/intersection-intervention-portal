@@ -9,10 +9,12 @@ class IntersectionView(UnicornView):
     next_path = ""
     prev_path= ""
     intersection = None
+    intersection_id = None
 
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)  # calling super is required
-        self.intersection = Intersection.objects.get(pk=kwargs.get("intersection_id"))
+        self.intersection_id = kwargs.get("intersection_id")
+        self.intersection = Intersection.objects.get(pk=self.intersection_id)
         self.intersection_type = self.intersection.intersection_type
         self.next_path = self._next_intersection_path()
         self.prev_path = self._prev_intersection_path()
