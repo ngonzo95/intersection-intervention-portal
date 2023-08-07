@@ -173,7 +173,7 @@ def get_cache():
                 "BACKEND": "django_redis.cache.RedisCache",
                 "LOCATION": location,
                 "OPTIONS": {
-                    "PASSWORD": password
+                    "PASSWORD": password,
                     "CLIENT_CLASS": "django_redis.client.DefaultClient"
                 },
                 "KEY_PREFIX": "example"
