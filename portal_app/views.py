@@ -94,12 +94,16 @@ def _generate_intersection_plot(intersection_list, request):
     return components(p)
 
 def _prev_intersection_path(intersection):
-    inter = Intersection.objects.raw("select pai.* from portal_app_intersection pai where pai.average_cost_to_insurers  > (select pai2.average_cost_to_insurers from portal_app_intersection pai2 where pai2.id = %s) order by pai.average_cost_to_insurers limit 1", [intersection.id])[0]
-    return reverse("intersections", args=[inter.id])
+        inter = Intersection.objects.raw("select pai.* from portal_app_intersection pai where pai.average_cost_to_insurers  > (select pai2.average_cost_to_insurers from portal_app_intersection pai2 where pai2.id = %s) order by pai.average_cost_to_insurers limit 1", [intersection.id])
+        if len(inter) == 0:
+            return None
+        else:
+            return reverse("intersections", args=[inter[0].id])
 
 def _next_intersection_path(intersection):
-    inter = Intersection.objects.raw("select pai.* from portal_app_intersection pai where pai.average_cost_to_insurers  < (select pai2.average_cost_to_insurers from portal_app_intersection pai2 where pai2.id = %s) order by  pai.average_cost_to_insurers  desc limit 1", [intersection.id])[0]
-    return reverse("intersections", args=[inter.id])
-
-
+    inter = Intersection.objects.raw("select pai.* from portal_app_intersection pai where pai.average_cost_to_insurers  < (select pai2.average_cost_to_insurers from portal_app_intersection pai2 where pai2.id = %s) order by  pai.average_cost_to_insurers  desc limit 1", [intersection.id])
+    if len(inter) == 0:
+        return None
+    else:
+        return reverse("intersections", args=[inter[0].id])
 
