@@ -27,7 +27,7 @@
                 <tbody>
                     <thead>
                         <tr>
-                            <th> Id </th>
+                            <th> Cluster Id </th>
                             <td>Yearly Cost to Insurers</td>
                             <td>Number of accidents</td>
                             <td>Latitude</td>
@@ -39,7 +39,7 @@
                     {% if intersection_list %}
                         {% for intersection in intersection_list %}
                             <tr style="transform: rotate(0);">
-                                <th scope="row"><a href="/intersections/{{ intersection.id }}" class="stretched-link">{{intersection.id}}</a></th>
+                                <th scope="row"><a href="/intersections/{{ intersection.id }}" class="stretched-link">{{intersection.cluster_id}}</a></th>
                                 <td>{{ intersection.formatted_cost_to_insurers }}</td>
                                 <td>{{ intersection.number_of_accidents }}</td>
                                 <td>{{ intersection.lon }}</td>
