@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'portal_app',
     'django_bootstrap5',
     'django_unicorn',
-    'whitenoise.runserver_nostatic'
+    'whitenoise.runserver_nostatic',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

@@ -38,6 +38,7 @@ def create_intersection(intersection_data):
     intersection = Intersection(
         lat= Decimal(row["lat"]),
         lon= Decimal(row["lon"]),
+        cluster_id= row["cluster_id"],
         intersection_type= row["intersection_type"],
         number_of_accidents= row["number_of_accidents"],
         average_cost_to_insurers= Decimal(row["average_cost_to_insurers"]),
@@ -63,7 +64,7 @@ def run_seed(self, mode):
         return
 
     # Load form csv
-    with open('portal_app//portal_app_seed.csv', mode='r') as csv_file:
+    with open('portal_app/portal_app_sioux_and_davenport.csv', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         line_count = 0
         for row in csv_reader:

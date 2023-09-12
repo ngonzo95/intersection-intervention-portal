@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('lat', models.DecimalField(db_index=True, decimal_places=16, max_digits=20)),
                 ('lon', models.DecimalField(db_index=True, decimal_places=16, max_digits=20)),
+                ('cluster_id', models.IntegerField()),
                 ('intersection_type', models.CharField(db_index=True, max_length=80)),
                 ('number_of_accidents', models.IntegerField(db_index=True)),
                 ('fatal_accident_number', models.IntegerField(db_index=True)),

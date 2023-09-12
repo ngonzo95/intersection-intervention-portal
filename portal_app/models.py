@@ -5,6 +5,7 @@ from decimal import Decimal
 class Intersection(models.Model):
     lat: Decimal = models.DecimalField(db_index=True, max_digits=20, decimal_places=16)
     lon: Decimal = models.DecimalField(db_index=True, max_digits=20, decimal_places=16)
+    cluster_id: int = models.IntegerField() 
     intersection_type: str = models.CharField(db_index=True, max_length=80) 
     number_of_accidents: int = models.IntegerField(db_index=True)
     fatal_accident_number = models.IntegerField(db_index=True)
