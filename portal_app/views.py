@@ -55,17 +55,24 @@ def intersection_details(request, intersection_id):
     return render(request, "portal_app/intersection.html", {"intersection": intersection, "script": script, "div": div, "prev_intersection_path": _prev_intersection_path(intersection), "next_intersection_path": _next_intersection_path(intersection)})
 
 def _generate_accident_charts(accidents):
-    accidents_df = pd.DataFrame(list(accidents.values("crash_severity", "crash_year", "contributing_circumstaces_1_num")))
+    accidents_df = pd.DataFrame(list(accidents.values("crash_severity", "crash_year", "contributing_circumstaces_1_num",
+                                                      "vehicle_action_num", "vision_obscured")))
 
     sev_bar = _generate_bar_graph(accidents_df, "crash_severity", label_dict=severity_dict, title="Severity",
                                 x_label = "Accident Severity")
     year_bar = _generate_bar_graph(accidents_df, "crash_year", title="Crash Year", x_label = "Accident Year")
-    most_harm_pie = _generate_pie_chart(accidents_df, "contributing_circumstaces_1_num", label_dict=dcontcirc_dict, title="Major harm")
+    driver_action_pie = _generate_pie_chart(accidents_df, "contributing_circumstaces_1_num", label_dict=dcontcirc_dict, title="Driver Action")
+    vehicle_action_pie = _generate_pie_chart(accidents_df, "vehicle_action_num", label_dict=vaction_dict, title="Vehicle Action")
+    vision_pie = _generate_pie_chart(accidents_df, "vision_obscured", label_dict=vision_dict, title="Vision")
+
 
     tab1 = TabPanel(child=sev_bar, title="Severity")
     tab2 = TabPanel(child=year_bar, title="Crash Year")
-    tab3 = TabPanel(child=most_harm_pie, title= "Most Harm")
-    return components(Tabs(height= 200, tabs=[tab1, tab2, tab3]))
+    tab3 = TabPanel(child=driver_action_pie, title="Driver Action")
+    tab4 = TabPanel(child=vehicle_action_pie, title="Vehicle Action")
+    tab5 = TabPanel(child=vision_pie, title="Vision")
+
+    return components(Tabs(height= 200, tabs=[tab1, tab2, tab3, tab4, tab5]))
 
 def _generate_intersection_plot(intersection_list, request):
     map_options = GMapOptions(lat=42.511975, lng=-94.167375, map_type="roadmap", zoom=7)
@@ -109,31 +116,11 @@ def _next_intersection_path(intersection):
         return reverse("intersections", args=[inter[0].id])
 
 
-vaction_dict = { 1: "Movement essentially straight", 2: "Turning left", 3: "Turning right", 4: "Making U-turn", 5: "Overtaking/passing",
+vaction_dict = defaultdict(lambda: f"Unknown num", { 1: "Movement essentially straight", 2: "Turning left", 3: "Turning right", 4: "Making U-turn", 5: "Overtaking/passing",
                  6: "Changing lanes", 7: "Entering traffic lane (merging)",8: "Leaving traffic lane", 9: "Backing", 10: "Slowing/stopping (deceleration)",
                  11: "Stopped in traffic", 12: "Legally Parked", 13: "Illegally Parked/Unattended", 14: "Negotiating a curve", 15: "Starting in road",
                  16: "Accelerating in road", 17: "Leaving a parked position", 18: "Entering a parked position", 98: "Other (explain in narrative)",
-                 99: "Unknown", 77: "Not Reported" }
-
-major_cause_dict = {1: "Animal", 2: "Ran Traffic Signal", 3: "Ran Stop Sign", 4: "Failed to yield to emergency vehicle",
-                    5: "FTYROW:  At uncontrolled intersection", 6: "FTYROW:  Making right turn on red signal", 7: "FTYROW:  From stop sign", 8: "FTYROW:  From yield sign",
-                    9: "FTYROW:  Making left turn", 10: "FTYROW:  From driveway", 11: "FTYROW:  From parked position", 12: "FTYROW:  To pedestrian", 13: "FTYROW:  Other (explain in narrative)",
-                    14: "Drove around RR grade crossing gates", 15: "Disregarded RR Signal", 16: "Crossed centerline (undivided)", 17: "Crossed median (divided)",
-                    18: "Traveling wrong way or on wrong side of road", 19: "Aggressive driving/road rage", 20: "Driving too fast for conditions", 21: "Exceeded authorized speed",
-                    22: "Improper or erratic lane changing", 23: "Operating vehicle in an reckless, erratic, careless, negligent manner", 24: "Followed too close",
-                    25: "Passing:  On wrong side", 26: "Passing:  Where prohibited by signs/markings", 27: "Passing:  With insufficient distance/inadequate visibility",
-                    28: "Passing:  Through/around barrier", 29: "Passing:  Other passing (explain in narrative)", 30: "Made improper turn", 31: "Driver Distraction:  Manual operation of an electronic communication device",
-                    32: "Driver Distraction:  Talking on a hand-held device", 33: "Driver Distraction:  Talking on a hands free device", 34: "Driver Distraction:  Adjusting devices (radio, climate)",
-                    35: "Driver Distraction:  Other electronic device activity", 36: "Driver Distraction:  Passenger", 37: "Driver Distraction:  Unrestrained animal", 38: "Driver Distraction:  Reaching for object(s)/fallen object(s)",
-                    39: "Driver Distraction:  Inattentive/lost in thought", 40: "Driver Distraction:  Other interior distraction", 41: "Driver Distraction:  Exterior distraction",
-                    42: "Ran off road - right", 43: "Ran off road - straight", 44: "Ran off road - left", 45: "Lost Control", 46: "Swerving/Evasive Action", 47: "Over correcting/over steering",
-                    48: "Failed to keep in proper lane", 49: "Failure to signal intentions", 50: "Traveling on prohibited traffic way", 51: "Vehicle stopped on railroad tracks", 52: "Other (explain in narrative):  Vision obstructed",
-                    53: "Other (explain in narrative):  Improper operation", 54: "Other (explain in narrative):  Disregarded Warning Sign", 55: "Other (explain in narrative):  Disregarded signs/road markings",
-                    56: "Other (explain in narrative):  Illegal off-road driving", 57: "Downhill runaway", 58: "Separation of units", 59: "Towing Improperly", 60: "Cargo/equipment loss or shift",
-                    61: "Equipment failure", 62: "Oversized Load/Vehicle", 63: "Other (explain in narrative):  Getting off/out of vehicle", 64: "Failure to dim lights/have lights on",
-                    65: "Improper Backing", 66: "Improper Starting", 67: "Illegally Parked/Unattended", 68: "Driving less than the posted speed limit", 69: "Operator inexperience",
-                    70: "Other (explain in narrative):  Other", 71: "Unknown", 72: "Not Reported", 73: "Other (explain in narrative):  No improper action", 99: "None Indicated"
-                    }
+                 99: "Unknown", 77: "Not Reported" })
 
 dcontcirc_dict = defaultdict(lambda: f"Unknown num", {
     1: "Ran traffic signal", 2: "Ran stop sign", 3: "Exceeded authorized speed", 4: "Driving less than the posted speed limit",
@@ -153,6 +140,11 @@ dcontcirc_dict = defaultdict(lambda: f"Unknown num", {
 
 severity_dict = {1: "fatal", 2: "major", 3: "minor", 4: "unknown", 5: "property"}
 
+vision_dict = defaultdict(lambda: f"Unknown num", {1: "Not obscured", 2: "Trees/crops", 3: "Embankment", 4: "Hillcrest", 5: "Building(s)", 6: "Sign/billboard",
+    7: "Parked vehicle(s)", 8: "Moving vehicle(s)", 9: "Person/object in or on vehicle", 10: "Blinded by sun or headlights",
+    11: "Broken/dirty windshield", 12: "Frosted windows/windshield", 13: "External mirror", 14: "Blowing snow",
+    15: "Fog/smoke/dust", 16: "Splash/spray of passing vehicle", 17: "Inadequate vehicle lighting",
+    18: "Exterior angle/blind spot on vehicle", 98: "Other (explain in narrative)", 99: "Unknown", 77: "Not Reported"})
 
 def _generate_bar_graph(df, column_name, label_dict=None, title="", x_label="", y_label= "Number of Accidents"):
     counts = df.groupby(column_name)[column_name].count()
