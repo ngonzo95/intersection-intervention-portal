@@ -72,7 +72,7 @@ def _generate_accident_charts(accidents):
     tab4 = TabPanel(child=vehicle_action_pie, title="Vehicle Action")
     tab5 = TabPanel(child=vision_pie, title="Vision")
 
-    return components(Tabs(height= 200, tabs=[tab1, tab2, tab3, tab4, tab5]))
+    return components(Tabs(height= 375, tabs=[tab1, tab2, tab3, tab4, tab5]))
 
 def _generate_intersection_plot(intersection_list, request):
     map_options = GMapOptions(lat=42.511975, lng=-94.167375, map_type="roadmap", zoom=7)
