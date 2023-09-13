@@ -42,11 +42,6 @@ def create_intersection(intersection_data):
         intersection_type= row["intersection_type"],
         number_of_accidents= row["number_of_accidents"],
         average_cost_to_insurers= Decimal(row["average_cost_to_insurers"]),
-        fatal_accident_number= row["fatal_accident_number"],
-        major_accident_number= row["major_accident_number"],
-        minor_accident_number= row["minor_accident_number"],
-        unknown_accident_number= row["unknown_accident_number"],
-        property_accident_number= row["property_accident_number"],
     )
     intersection.save()
     #logger.info("{} intersection created.".format(intersection))

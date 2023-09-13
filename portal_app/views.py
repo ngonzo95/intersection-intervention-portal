@@ -1,11 +1,12 @@
 from django.shortcuts import render, HttpResponse
 from django.http import Http404
-from .models import Intersection
+from .models import Intersection, Accident
 from bokeh.plotting import figure, gmap
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource, ranges, LabelSet, GMapOptions, LinearColorMapper, HoverTool, TapTool, OpenURL
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count
 
 
 
@@ -43,9 +44,13 @@ def intersection_details(request, intersection_id):
     except Intersection.DoesNotExist:
         raise Http404("Intersection does not exist")
 
+    y = [0,0,0,0,0]
+    sevs = Accident.objects.filter(intersection_id=intersection_id).values("crash_severity").annotate(total=Count('crash_severity')).order_by('total')
+    for sev in sevs:
+        y[sev["crash_severity"] - 1] = sev["total"]
+
     bar_source = ColumnDataSource(dict(x=["fatal", "major", "minor", "unknown", "property"],
-    y=[intersection.fatal_accident_number, intersection.major_accident_number, intersection.minor_accident_number, 
-    intersection.unknown_accident_number, intersection.property_accident_number]))
+    y=y))
 
     x_label = "Accident Severity"
     y_label = "Number of Accidents"
