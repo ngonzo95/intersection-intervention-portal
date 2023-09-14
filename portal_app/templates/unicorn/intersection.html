@@ -1,44 +1,36 @@
-
-<div style="height:50px;">
-    {% if prev_intersection_path%}
-        <a href="{{prev_intersection_path}}" class="btn btn-primary btn-sm my-5">Previous</a>
-    {% endif%}
-    <a href="/" class="btn btn-primary btn-sm my-5">Back to Intersection List</a>
-    {% if next_intersection_path%}
-        <a href="{{next_intersection_path}}" class="btn btn-primary btn-sm my-5">Next</a>
-    {% endif%}
-</div>
+<div class="col">
     <div class="d-flex">
-        <table class="table table-striped mt-3">
+        <table class="table table-striped mt-2">
             <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
             </thead>
             <tbody>
-                    <tr>
-                        <td>{{"Cluster Id" | upper}}</td>
-                        <td>{{intersection.cluster_id}}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>{{"Number of Accidents" | upper}}</td>
-                        <td>{{intersection.number_of_accidents}}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>{{"Yearly Cost to Insurers" | upper}}</td>
-                        <td>{{intersection.formatted_cost_to_insurers}}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>{{"Intersection Type" | upper}}</td>
-                        <td><input type="text" unicorn:model="intersection_type" /></td>
-                        <td><button unicorn:click="update_intersection_type">Save</button></td>
-                    </tr>
-                    
+            <tr>
+                <td>{{"Id" | upper}}</td>
+                <td>{{intersection.id}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{"Number of Accidents" | upper}}</td>
+                <td>{{intersection.number_of_accidents}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{"Yearly Cost to Insurers" | upper}}</td>
+                <td>{{intersection.formatted_cost_to_insurers}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{"Intersection Type" | upper}}</td>
+                <td><input type="text" unicorn:model="intersection_type" /></td>
+                <td><button unicorn:click="update_intersection_type">Save</button></td>
+            </tr>
+
             </tbody>
         </table>
     </div>
+</div>

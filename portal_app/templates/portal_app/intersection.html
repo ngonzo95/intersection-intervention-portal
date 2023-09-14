@@ -54,9 +54,18 @@
             </div>
 
             <div class="item">
-              {% unicorn 'intersection' intersection_id=intersection.id %}
-              {{div | safe}}
-              {{script | safe}}
+                <div style="height:65px;">
+                    {% if prev_intersection_path%}
+                        <a href="{{prev_intersection_path}}" class="btn btn-primary btn-sm my-5">Previous</a>
+                    {% endif%}
+                    <a href="/" class="btn btn-primary btn-sm my-5">Back to Intersection List</a>
+                    {% if next_intersection_path%}
+                        <a href="{{next_intersection_path}}" class="btn btn-primary btn-sm my-5">Next</a>
+                    {% endif%}
+                </div>
+                {% unicorn 'intersection' intersection_id=intersection.id %}
+                {{div | safe}}
+                {{script | safe}}
             </div>
         </div>
 
